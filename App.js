@@ -39,7 +39,6 @@ export default function App() {
       <View style={styles.linha}></View>
       <View style={styles.rodapeContainer}>
 
-      {/* Botão da casa */}
       <TouchableOpacity>
         <View style={styles.casinhacontainer}>
           <Image
@@ -49,7 +48,6 @@ export default function App() {
         </View>
       </TouchableOpacity>
 
-      {/* Botão da pessoa */}
       <TouchableOpacity>
         <View style={styles.pessoacontainer} >
           <Image
