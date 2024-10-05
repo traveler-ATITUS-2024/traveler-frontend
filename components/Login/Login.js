@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,  
     marginBottom: 30,
     marginTop: 50,
+    borderRadius: 40,
   },
   textobotao: {
     color: '#FFF',
