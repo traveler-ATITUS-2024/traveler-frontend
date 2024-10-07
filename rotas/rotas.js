@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Login from "../components/Login/Login";
+import Login from "../src/modules/login/view/login";
 import Cadastro from "../src/modules/cadastro/view/cadastro";
 import AddNovaViagem from "../components/AddNovaViagem/AddNovaViagem";
 import { ModalViagem } from "../components/modal/pesquisaC.E.P";

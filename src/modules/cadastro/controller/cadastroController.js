@@ -29,7 +29,7 @@ const cadastroController = (cadastroUseCase) => () => {
         senha: password,
       });
       Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
-      navigation.navigate("AddNovaViagem");
+      navigation.navigate("Login");
     } catch (error) {
       console.error(error);
       Alert.alert("Erro", "Ocorreu um erro ao tentar cadastrar.");

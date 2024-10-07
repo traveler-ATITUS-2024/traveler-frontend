@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   inputArea: {
     position: 'relative', 
-    marginBottom: 15, 
+    marginBottom: 5, 
   },
   input: {
     width: '100%', 
@@ -142,12 +142,13 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#FFF",
-    marginBottom: 15,
+    marginBottom: 20, 
+    paddingVertical: 10, 
   },
   icon: {
     position: 'absolute',
     right: 10, 
-    top: 18,  
+    top: 8,  
   },
   botaoCadastrar: {
     backgroundColor: "#007AFF",
