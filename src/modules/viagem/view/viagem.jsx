@@ -12,10 +12,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import logo from "../../../../assets/logo.png";
 import fundomenu from "../../../../assets/fundomenu.png";
 import { ModalViagem } from "../../modal/view/modal.jsx";
-import { TabNavigator } from "../../../rotas/tabNavigator.js";
 import { viagemControllerImpl } from "../di/di.js";
 
-export function Viagem() {
+export default function Viagem() {
   const controller = viagemControllerImpl();
 
   const [mostraModal, setMostraModal] = useState(false);
@@ -40,6 +39,8 @@ export function Viagem() {
       >
         <Text style={styles.textobotao}>+ Adicionar nova viagem</Text>
       </TouchableOpacity>
+
+      <View style={styles.linha}></View>
 
       <Modal visible={mostraModal} animationType="fade" transparent={true}>
         <ModalViagem fechar={() => setMostraModal(false)} />
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 24,
     letterSpacing: 6.2,
-    fontFamily: "Inter", // Aplicar a fonte Inter
+    fontFamily: "Inter", 
     color: "#FFF",
   },
   imagemfundomenu: {
@@ -93,14 +94,15 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 18,
   },
-  linha: {
-    width: "90%",
-    height: 1,
-    backgroundColor: "rgba(255,255,255,0.50)",
-    marginTop: 130,
-  },
   icon: {
     width: 30,
     height: 30,
   },
+  linha: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFF",
+    width: 150,
+    marginTop: 5,
+    width: "90%",
+},
 });
