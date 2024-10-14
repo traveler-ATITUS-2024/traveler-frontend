@@ -1,7 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Animated, TouchableOpacity, Image } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import flecha from "./../../assets/flechaesquerda.png";
+import flecha from "../../../../assets/flechaesquerda.png";
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 export function ModalViagem({ fechar }) {
   return (
