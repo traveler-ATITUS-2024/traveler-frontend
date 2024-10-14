@@ -13,10 +13,12 @@ import logo from "../../../../assets/logo.png";
 import fundomenu from "../../../../assets/fundomenu.png";
 import pessoa from "../../../../assets/pessoa.png";
 import casinha from "../../../../assets/casinha.png";
-import profile from "../../profile/view/profile.jsx"; // Supondo que esta seja a tela de perfil
+import profile from "../../profile/view/profile.jsx"; 
 import { ModalViagem } from "../../modal/view/modal.jsx";
+import EmptyComponent from "../controller/addnovaviagemController.js"; 
+import { TabNavigator } from "../../../../rotas/tabnavigaotr.js"; 
 
-const Tab = createBottomTabNavigator(); // Configuração do Tab Navigator
+
 
 export default function App() {
   const [mostraModal, setMostraModal] = useState(false);
@@ -45,30 +47,7 @@ export default function App() {
       <View style={styles.linha}></View>
 
       <NavigationContainer>
-        {/* Definindo as abas para navegação */}
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              let iconName;
-              let tintColor = focused ? "#0E6EFF" : "#fff";
-
-              if (route.name === "Home") {
-                iconName = casinha;
-              } else if (route.name === "Profile") {
-                iconName = pessoa;
-              }
-
-              return (
-                <Image source={iconName} style={[styles.icon, { tintColor }]} />
-              );
-            },
-            tabBarStyle: { backgroundColor: "#0A1A2F" }, // Fundo do menu
-            tabBarShowLabel: false, // Esconder rótulo de texto
-          })}
-        >
-          <Tab.Screen name="Home" component={AddNovaViagem} />
-          <Tab.Screen name="Profile" component={profile} />
-        </Tab.Navigator>
+        <TabNavigator /> 
       </NavigationContainer>
 
       <Modal visible={mostraModal} animationType="fade" transparent={true}>

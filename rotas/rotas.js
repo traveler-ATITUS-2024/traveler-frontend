@@ -2,11 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "../src/modules/login/view/login";
 import Cadastro from "../src/modules/cadastro/view/cadastro";
-import AddNovaViagem from "../src/modules/addnovaviagem/view/addnovaviagem";
+import AddNovaViagem from "../src/modules/AddNovaViagem/view/addnovaviagem";
 import { ModalViagem } from "../src/modules/modal/view/modal";
 import Profile from "../src/modules/profile/view/profile";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(); 
 
 export default function rotas() {
   return (
