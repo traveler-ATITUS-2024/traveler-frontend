@@ -11,16 +11,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import logo from "../../../../assets/logo.png";
 import fundomenu from "../../../../assets/fundomenu.png";
-import pessoa from "../../../../assets/pessoa.png";
-import casinha from "../../../../assets/casinha.png";
-import profile from "../../profile/view/profile.jsx"; 
 import { ModalViagem } from "../../modal/view/modal.jsx";
-import EmptyComponent from "../controller/addnovaviagemController.js"; 
-import { TabNavigator } from "../../../../rotas/tabnavigaotr.js"; 
+import { TabNavigator } from "../../../rotas/tabNavigator.js";
+import { viagemControllerImpl } from "../di/di.js";
 
+export function Viagem() {
+  const controller = viagemControllerImpl();
 
-
-export default function App() {
   const [mostraModal, setMostraModal] = useState(false);
 
   return (
@@ -43,12 +40,6 @@ export default function App() {
       >
         <Text style={styles.textobotao}>+ Adicionar nova viagem</Text>
       </TouchableOpacity>
-
-      <View style={styles.linha}></View>
-
-      <NavigationContainer>
-        <TabNavigator /> 
-      </NavigationContainer>
 
       <Modal visible={mostraModal} animationType="fade" transparent={true}>
         <ModalViagem fechar={() => setMostraModal(false)} />
@@ -96,6 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 140,
   },
   textobotao: {
     color: "#FFF",

@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Login from "../src/modules/login/view/login";
-import Cadastro from "../src/modules/cadastro/view/cadastro";
-import AddNovaViagem from "../src/modules/AddNovaViagem/view/addnovaviagem";
-import { ModalViagem } from "../src/modules/modal/view/modal";
-import Profile from "../src/modules/profile/view/profile";
+import Login from "../modules/login/view/login";
+import Cadastro from "../modules/cadastro/view/cadastro";
+import { Viagem } from "../modules/viagem/view/viagem";
+import { ModalViagem } from "../modules/modal/view/modal";
+import Profile from "../modules/profile/view/profile";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-const Stack = createNativeStackNavigator(); 
+const Stack = createNativeStackNavigator();
 
 export default function rotas() {
   return (
@@ -25,8 +25,8 @@ export default function rotas() {
       />
 
       <Stack.Screen
-        name="AddNovaViagem"
-        component={AddNovaViagem}
+        name="Viagem"
+        component={Viagem}
         options={{ headerShown: false }}
       />
 
