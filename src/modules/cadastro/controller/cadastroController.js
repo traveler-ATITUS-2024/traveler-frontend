@@ -1,5 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useState, useCallback } from "react";
+import { Alert } from "react-native";
 
 const cadastroController = (cadastroUseCase) => () => {
   const [state, setState] = useState("suo");
@@ -10,6 +11,17 @@ const cadastroController = (cadastroUseCase) => () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigation = useNavigation();
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      };
+    }, [])
+  );
 
   const handleRegister = async () => {
     if (!username || !email || !password || !confirmPassword) {

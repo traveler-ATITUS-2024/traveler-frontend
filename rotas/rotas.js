@@ -2,8 +2,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "../src/modules/login/view/login";
 import Cadastro from "../src/modules/cadastro/view/cadastro";
-import AddNovaViagem from "../components/AddNovaViagem/AddNovaViagem";
-import { ModalViagem } from "../components/modal/pesquisaC.E.P";
+import AddNovaViagem from "../src/modules/addnovaviagem/view/addnovaviagem";
+import { ModalViagem } from "../src/modules/modal/view/modal";
+import Profile from "../src/modules/profile/view/profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,12 @@ export default function rotas() {
       <Stack.Screen
         name="ModalViagem"
         component={ModalViagem}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -1,11 +1,21 @@
-  import { useNavigation } from "@react-navigation/native";
-  import { useState } from "react";
+  import { useNavigation, useFocusEffect } from "@react-navigation/native";
+  import { useState, useCallback } from "react";
   import { Alert } from "react-native";
 
   const loginController = (loginUseCase) => () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const navigation = useNavigation();
+
+    useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setEmail("");
+        setPassword("");
+      };
+    }, [])
+  );
 
     const handleLogin = async () => {
       if (!email || !password) {
