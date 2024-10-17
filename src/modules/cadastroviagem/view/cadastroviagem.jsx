@@ -1,8 +1,20 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
+import { Calendar } from "react-native-calendars";
 import useCadastroNovaViagemController from "../controller/cadastroviagemController";
+import { useNavigation } from "@react-navigation/native";
 
 import marcacaomapa from "../../../../assets/marcacaomapa.png";
 import calendarioida from "../../../../assets/calendarioida.png";
@@ -11,150 +23,159 @@ import logo from "../../../../assets/logo.png";
 import flechaesquerda from "../../../../assets/flechaesquerda.png";
 
 export default function CadastroNovaViagem() {
+  const {
+    cidade,
+    selecionarCidade,
+    tituloViagem,
+    setTituloViagem,
+    isEditing,
+    setIsEditing,
+    dataIda,
+    dataVolta,
+    isCalendarVisible,
+    selectedCalendar,
+    gastoPrevisto,
+    handleConfirmIda,
+    handleConfirmVolta,
+    formatarData,
+    toggleCalendar,
+    dismissKeyboardAndCalendar,
+    handleGastoChange,
+    handleAdicionar,
+  } = useCadastroNovaViagemController();
+
   const navigation = useNavigation();
-  const { cidade } = useCadastroNovaViagemController();
-
-  const [tituloViagem, setTituloViagem] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [dataIda, setDataIda] = useState(null);
-  const [dataVolta, setDataVolta] = useState(null);
-  const [isIdaPickerVisible, setIdaPickerVisibility] = useState(false);
-  const [isVoltaPickerVisible, setVoltaPickerVisibility] = useState(false);
-  const [gastoPrevisto, setGastoPrevisto] = useState("R$ 0,00"); 
-
-  // Função para manipular a data de ida
-  const handleConfirmIda = (selectedDate) => {
-    setIdaPickerVisibility(false);
-    setDataIda(selectedDate);
-  };
-
-  // Função para manipular a data de volta
-  const handleConfirmVolta = (selectedDate) => {
-    setVoltaPickerVisibility(false);
-    setDataVolta(selectedDate);
-  };
-
-  // Função para formatar o valor como moeda e manter o prefixo "R$"
-  const formatCurrency = (value) => {
-    // Remove qualquer caractere que não seja número
-    let numericValue = value.replace(/\D/g, "");
-    
-    // Se o valor estiver vazio, atribuímos 0
-    if (numericValue.length === 0) {
-      numericValue = "0";
-    }
-
-    // Divide o valor por 100 para formar a casa decimal
-    numericValue = (numericValue / 100).toFixed(2).replace(".", ",");
-
-    // Adiciona os pontos de separação para milhares
-    numericValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-    // Retorna o valor formatado com "R$" no início
-    return `R$ ${numericValue}`;
-  };
-
-  // Função de controle da mudança no valor
-  const handleGastoChange = (value) => {
-    // Atualiza o estado com o valor formatado
-    setGastoPrevisto(formatCurrency(value));
-  };
-
-  const handleAdicionar = () => {
-    navigation.navigate("cadastroviagem");
-  };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={flechaesquerda} style={[styles.voltarIcone, { tintColor: "#FFFF" }]} />
-          </TouchableOpacity>
-          <Image source={logo} style={styles.logo} />
-        </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={dismissKeyboardAndCalendar}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={flechaesquerda}
+                style={[styles.voltarIcone, { tintColor: "#FFFF" }]}
+              />
+            </TouchableOpacity>
+            <Image source={logo} style={styles.logo} />
+          </View>
 
-        {!isEditing ? (
-          <TouchableOpacity onPress={() => setIsEditing(true)}>
-            <Text style={styles.label}>
-              {tituloViagem || "Título da viagem:"}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TextInput
-            style={styles.input}
-            value={tituloViagem}
-            placeholder="Digite o título da viagem"
-            placeholderTextColor="#999"
-            onChangeText={setTituloViagem}
-            onBlur={() => setIsEditing(false)}
-            autoFocus
-          />
-        )}
-
-        <View style={styles.linha} />
-
-        <View style={styles.datas}>
-          <TouchableOpacity onPress={() => setIdaPickerVisibility(true)} style={styles.dataContainer}>
-            <Image source={calendarioida} style={styles.icone} />
-            <Text style={styles.textoDatas}>
-              {dataIda ? dataIda.toLocaleDateString("pt-BR") : "Data de ida"}
-            </Text>
-          </TouchableOpacity>
-
-          <DateTimePickerModal
-            isVisible={isIdaPickerVisible}
-            mode="date"
-            onConfirm={handleConfirmIda}
-            onCancel={() => setIdaPickerVisibility(false)}
-            locale="pt-BR"
-            display="inline"
-            themeVariant="dark"
-            textColor="#FFFFFF"
-          />
-
-          <TouchableOpacity onPress={() => setVoltaPickerVisibility(true)} style={styles.dataContainer}>
-            <Image source={calendariovolta} style={styles.icone} />
-            <Text style={styles.textoDatas}>
-              {dataVolta ? dataVolta.toLocaleDateString("pt-BR") : "Data de volta"}
-            </Text>
-          </TouchableOpacity>
-
-          <DateTimePickerModal
-            isVisible={isVoltaPickerVisible}
-            mode="date"
-            onConfirm={handleConfirmVolta}
-            onCancel={() => setVoltaPickerVisibility(false)}
-            locale="pt-BR"
-            display="inline"
-            themeVariant="dark"
-            textColor="#FFFFFF"
-          />
+          {!isEditing ? (
+            <TouchableOpacity onPress={() => setIsEditing(true)}>
+              <Text style={styles.label}>
+                {tituloViagem || "Título da viagem:"}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TextInput
+              style={styles.input}
+              value={tituloViagem}
+              placeholder="Digite o título da viagem"
+              placeholderTextColor="#999"
+              onChangeText={setTituloViagem}
+              onBlur={() => setIsEditing(false)}
+              autoFocus
+            />
+          )}
 
           <View style={styles.linha} />
-        </View>
 
-        <View style={styles.cidadeContainer}>
-          <Image source={marcacaomapa} style={styles.icone} />
-          <Text style={styles.cidadeTexto}>{cidade || "Selecionar cidade"}</Text>
-        </View>
+          <View style={styles.datas}>
+            <TouchableOpacity
+              onPress={() => toggleCalendar("ida")}
+              style={styles.dataContainer}
+            >
+              <Image source={calendarioida} style={styles.icone} />
+              <Text style={styles.textoDatas}>
+                {dataIda ? formatarData(dataIda) : "Data de ida"}
+              </Text>
+            </TouchableOpacity>
 
-        <View style={styles.gastoContainer}>
-          <Text style={styles.gastoLabel}>Gasto previsto:</Text>
-          <TextInput
-            style={styles.inputGasto}
-            value={gastoPrevisto}
-            onChangeText={handleGastoChange}
-            keyboardType="numeric"
-            placeholderTextColor="#FFFF"
-          />
-        </View>
+            {isCalendarVisible && selectedCalendar === "ida" && (
+              <Calendar
+                style={styles.calendar}
+                headerStyle={{
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: "#E8E8E8",
+                  paddingBottom: 10,
+                  marginBottom: 10,
+                }}
+                theme={{
+                  textMonthFontSize: 18,
+                  monthTextColor: "#E8E8E8",
+                  todayTextColor: "#F06543",
+                  selectedDayBackgroundColor: "#F06543",
+                  selectedDayTextColor: "#E8E8E8",
+                }}
+                onDayPress={(day) => handleConfirmIda(new Date(day.dateString))}
+              />
+            )}
 
-        <TouchableOpacity style={styles.botaoAdicionar} onPress={handleAdicionar}>
-          <Text style={styles.textoBotao}>+ Adicionar</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableWithoutFeedback>
+            <TouchableOpacity
+              onPress={() => toggleCalendar("volta")}
+              style={styles.dataContainer}
+            >
+              <Image source={calendariovolta} style={styles.icone} />
+              <Text style={styles.textoDatas}>
+                {dataVolta ? formatarData(dataVolta) : "Data de volta"}
+              </Text>
+            </TouchableOpacity>
+
+            {isCalendarVisible && selectedCalendar === "volta" && (
+              <Calendar
+                style={styles.calendar}
+                headerStyle={{
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: "#E8E8E8",
+                  paddingBottom: 10,
+                  marginBottom: 10,
+                }}
+                theme={{
+                  textMonthFontSize: 18,
+                  monthTextColor: "#E8E8E8",
+                  todayTextColor: "#F06543",
+                  selectedDayBackgroundColor: "#F06543",
+                  selectedDayTextColor: "#E8E8E8",
+                }}
+                onDayPress={(day) =>
+                  handleConfirmVolta(new Date(day.dateString))
+                }
+              />
+            )}
+
+            <View style={styles.linha} />
+          </View>
+
+          <View style={styles.cidadeContainer}>
+            <Image source={marcacaomapa} style={styles.icone} />
+            <Text style={styles.cidadeTexto}>
+              {cidade || "Selecionar cidade"}
+            </Text>
+          </View>
+
+          <View style={styles.gastoContainer}>
+            <Text style={styles.gastoLabel}>Gasto previsto:</Text>
+            <TextInput
+              style={styles.inputGasto}
+              value={gastoPrevisto}
+              onChangeText={handleGastoChange}
+              keyboardType="numeric"
+              placeholderTextColor="#FFFF"
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.botaoAdicionar}
+            onPress={handleAdicionar}
+          >
+            <Text style={styles.textoBotao}>+ Adicionar</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -162,7 +183,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#00050D",
+  },
+  scrollContainer: {
+    flexGrow: 1,
     padding: 20,
+    justifyContent: "space-between",
   },
   header: {
     flexDirection: "row",
@@ -199,6 +224,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     width: "100%",
   },
+  calendar: {
+    backgroundColor: "transparent",
+  },
   dataContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -233,7 +261,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   gastoContainer: {
-    marginTop: 40,
+    marginTop: 50,
   },
   gastoLabel: {
     color: "#FFFFFF",
@@ -243,8 +271,6 @@ const styles = StyleSheet.create({
     color: "#999",
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: 10,
-    borderBottomColor: "#FFF",
   },
   botaoAdicionar: {
     backgroundColor: "#0E6EFF",
@@ -253,8 +279,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     alignItems: "center",
     alignSelf: "center",
-    marginTop: 180,
-    marginLeft: 160,
+    marginTop: 120,
+    marginBottom: 40,
+    marginLeft: 140,
   },
   textoBotao: {
     color: "#FFFFFF",

@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     letterSpacing: 6.2,
     fontFamily: "Inter", 
     color: "#FFF",
+    fontWeight: "bold",
   },
   imagemfundomenu: {
     width: 300,
