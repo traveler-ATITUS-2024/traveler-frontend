@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import addNovaViagemUseCase from "../domain/addNovaViagemUseCase"; // Certifique-se de que o caminho está correto.
 
-export default function useCadastroNovaViagemController() {
+export default function useCadastroNovaViagemController(CadastroViagemUseCase) {
   const navigation = useNavigation();
 
   // Estados utilizados
