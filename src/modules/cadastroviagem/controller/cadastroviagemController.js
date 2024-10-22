@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Keyboard } from "react-native";  
+import { Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import addNovaViagemUseCase from "../domain/addNovaViagemUseCase"; // Certifique-se de que o caminho está correto.
 
-export default function useCadastroNovaViagemController(CadastroViagemUseCase) {
+const cadastroViagemController = (cadastroViagemUseCase) => () => {
   const navigation = useNavigation();
 
   // Estados utilizados
@@ -43,27 +42,31 @@ export default function useCadastroNovaViagemController(CadastroViagemUseCase) {
   const salvaDataIda = async (dataIdaSelecionada) => {
     try {
       if (dataIdaSelecionada) {
-        await AsyncStorage.setItem("@dataIda", dataIdaSelecionada.toISOString());
-        setDataIda(dataIdaSelecionada);
-        console.log("Data de ida salva:", dataIdaSelecionada);
+        const dataCorrigida = new Date(dataIdaSelecionada.getTime() + dataIdaSelecionada.getTimezoneOffset() * 60000);
+        await AsyncStorage.setItem("@dataIda", dataCorrigida.toISOString());
+        setDataIda(dataCorrigida);
+        console.log(`Data de ida (${dataCorrigida.toLocaleDateString("pt-BR")}) foi salva com sucesso.`);
       }
     } catch (error) {
-      console.log("Erro ao salvar sua data de ida!", error);
+      console.log("Erro ao salvar a data de ida!", error);
     }
   };
+  
 
   // Função para salvar a data de volta
   const salvaDataVolta = async (dataVoltaSelecionada) => {
     try {
       if (dataVoltaSelecionada) {
-        await AsyncStorage.setItem("@dataVolta", dataVoltaSelecionada.toISOString());
-        setDataVolta(dataVoltaSelecionada);
-        console.log("Data de volta salva:", dataVoltaSelecionada);
+        const dataCorrigida = new Date(dataVoltaSelecionada.getTime() + dataVoltaSelecionada.getTimezoneOffset() * 60000);
+        await AsyncStorage.setItem("@dataVolta", dataCorrigida.toISOString());
+        setDataVolta(dataCorrigida);
+        console.log(`Data de volta (${dataCorrigida.toLocaleDateString("pt-BR")}) foi salva com sucesso.`);
       }
     } catch (error) {
-      console.log("Erro ao salvar sua data de volta!", error);
+      console.log("Erro ao salvar a data de volta!", error);
     }
   };
+  
 
   // Função para manipular a data de ida
   const handleConfirmIda = (selectedDate) => {
@@ -119,7 +122,7 @@ export default function useCadastroNovaViagemController(CadastroViagemUseCase) {
   // Função para adicionar viagem e salvar os dados
   const handleAdicionar = async () => {
     try {
-      const resultado = await addNovaViagemUseCase.salvarViagem({
+      const resultado = await cadastroViagemUseCase.salvarViagem({
         titulo: tituloViagem,
         dataIda,
         dataVolta,
@@ -128,9 +131,9 @@ export default function useCadastroNovaViagemController(CadastroViagemUseCase) {
       });
 
       if (resultado.success) {
-        navigation.navigate("cadastroviagem");
+        navigation.navigate("homecomviagem"); // Navega para a tela "homecomviagem" após o sucesso
       } else {
-        alert(resultado.message);
+        alert(resultado.message); // Mostra a mensagem de erro caso algo dê errado
       }
     } catch (error) {
       console.log("Erro ao adicionar viagem:", error);
@@ -162,4 +165,7 @@ export default function useCadastroNovaViagemController(CadastroViagemUseCase) {
     handleGastoChange,
     handleAdicionar,
   };
-}
+};
+
+// Exporta o controlador como padrão
+export default cadastroViagemController;

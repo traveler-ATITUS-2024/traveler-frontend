@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   Text,
@@ -12,9 +12,10 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { Calendar } from "react-native-calendars";
-import useCadastroNovaViagemController from "../controller/cadastroviagemController";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+import { cadastroViagemControllerImpl } from "../di/di";
 import { useNavigation } from "@react-navigation/native";
+import {ptBR} from "../utils/localeCalendarConfig";
 
 import marcacaomapa from "../../../../assets/marcacaomapa.png";
 import calendarioida from "../../../../assets/calendarioida.png";
@@ -22,36 +23,21 @@ import calendariovolta from "../../../../assets/calendariovolta.png";
 import logo from "../../../../assets/logo.png";
 import flechaesquerda from "../../../../assets/flechaesquerda.png";
 
-export default function CadastroNovaViagem() {
-  const {
-    cidade,
-    selecionarCidade,
-    tituloViagem,
-    setTituloViagem,
-    isEditing,
-    setIsEditing,
-    dataIda,
-    dataVolta,
-    isCalendarVisible,
-    selectedCalendar,
-    gastoPrevisto,
-    handleConfirmIda,
-    handleConfirmVolta,
-    formatarData,
-    toggleCalendar,
-    dismissKeyboardAndCalendar,
-    handleGastoChange,
-    handleAdicionar,
-  } = useCadastroNovaViagemController();
+LocaleConfig.locales["pt-br"] = ptBR;
+LocaleConfig.defaultLocale = "pt-br";
 
+export default function CadastroNovaViagem() {
   const navigation = useNavigation();
+  const controller = cadastroViagemControllerImpl(); // Controlador instanciado
+  const [dataIda, setDataIda] = useState(null);
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <TouchableWithoutFeedback onPress={dismissKeyboardAndCalendar}>
+      {/* Aqui usamos controller.dismissKeyboardAndCalendar */}
+      <TouchableWithoutFeedback onPress={controller.dismissKeyboardAndCalendar}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -63,20 +49,20 @@ export default function CadastroNovaViagem() {
             <Image source={logo} style={styles.logo} />
           </View>
 
-          {!isEditing ? (
-            <TouchableOpacity onPress={() => setIsEditing(true)}>
+          {!controller.isEditing ? (
+            <TouchableOpacity onPress={() => controller.setIsEditing(true)}>
               <Text style={styles.label}>
-                {tituloViagem || "Título da viagem:"}
+                {controller.tituloViagem || "Título da viagem:"}
               </Text>
             </TouchableOpacity>
           ) : (
             <TextInput
               style={styles.input}
-              value={tituloViagem}
+              value={controller.tituloViagem}
               placeholder="Digite o título da viagem"
               placeholderTextColor="#999"
-              onChangeText={setTituloViagem}
-              onBlur={() => setIsEditing(false)}
+              onChangeText={controller.setTituloViagem}
+              onBlur={() => controller.setIsEditing(false)}
               autoFocus
             />
           )}
@@ -85,65 +71,45 @@ export default function CadastroNovaViagem() {
 
           <View style={styles.datas}>
             <TouchableOpacity
-              onPress={() => toggleCalendar("ida")}
+              onPress={() => controller.toggleCalendar("ida")}
               style={styles.dataContainer}
             >
               <Image source={calendarioida} style={styles.icone} />
               <Text style={styles.textoDatas}>
-                {dataIda ? formatarData(dataIda) : "Data de ida"}
+                {controller.dataIda ? controller.formatarData(controller.dataIda) : "Data de ida"}
               </Text>
             </TouchableOpacity>
 
-            {isCalendarVisible && selectedCalendar === "ida" && (
+            {controller.isCalendarVisible && controller.selectedCalendar === "ida" && (
               <Calendar
-                style={styles.calendar}
-                headerStyle={{
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: "#E8E8E8",
-                  paddingBottom: 10,
-                  marginBottom: 10,
-                }}
-                theme={{
-                  textMonthFontSize: 18,
-                  monthTextColor: "#E8E8E8",
-                  todayTextColor: "#F06543",
-                  selectedDayBackgroundColor: "#F06543",
-                  selectedDayTextColor: "#E8E8E8",
-                }}
-                onDayPress={(day) => handleConfirmIda(new Date(day.dateString))}
+                style={styles.calendario}
+                headerStyle={styles.calendarioHeader}                                  
+                theme={styles.temacalendario}
+                minDate={new Date().toDateString()}
+                hideExtraDays={true}
+                onDayPress={(day) => controller.handleConfirmIda(new Date(day.dateString))}
               />
             )}
 
             <TouchableOpacity
-              onPress={() => toggleCalendar("volta")}
+              onPress={() => controller.toggleCalendar("volta")}
               style={styles.dataContainer}
             >
               <Image source={calendariovolta} style={styles.icone} />
               <Text style={styles.textoDatas}>
-                {dataVolta ? formatarData(dataVolta) : "Data de volta"}
+                {controller.dataVolta ? controller.formatarData(controller.dataVolta) : "Data de volta"}
               </Text>
             </TouchableOpacity>
 
-            {isCalendarVisible && selectedCalendar === "volta" && (
+            {controller.isCalendarVisible && controller.selectedCalendar === "volta" && (
               <Calendar
-                style={styles.calendar}
-                headerStyle={{
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: "#E8E8E8",
-                  paddingBottom: 10,
-                  marginBottom: 10,
-                }}
-                theme={{
-                  textMonthFontSize: 18,
-                  monthTextColor: "#E8E8E8",
-                  todayTextColor: "#F06543",
-                  selectedDayBackgroundColor: "#F06543",
-                  selectedDayTextColor: "#E8E8E8",
-                }}
-                onDayPress={(day) =>
-                  handleConfirmVolta(new Date(day.dateString))
-                }
-              />
+              style={styles.calendario}
+              headerStyle={styles.calendarioHeader}                                  
+              theme={styles.temacalendario}
+              minDate={new Date().toDateString()}
+              hideExtraDays={true}
+              onDayPress={(day) => controller.handleConfirmVolta(new Date(day.dateString))}
+            />
             )}
 
             <View style={styles.linha} />
@@ -152,7 +118,7 @@ export default function CadastroNovaViagem() {
           <View style={styles.cidadeContainer}>
             <Image source={marcacaomapa} style={styles.icone} />
             <Text style={styles.cidadeTexto}>
-              {cidade || "Selecionar cidade"}
+              {controller.cidade || "Selecionar cidade"}
             </Text>
           </View>
 
@@ -160,8 +126,8 @@ export default function CadastroNovaViagem() {
             <Text style={styles.gastoLabel}>Gasto previsto:</Text>
             <TextInput
               style={styles.inputGasto}
-              value={gastoPrevisto}
-              onChangeText={handleGastoChange}
+              value={controller.gastoPrevisto}
+              onChangeText={controller.handleGastoChange}
               keyboardType="numeric"
               placeholderTextColor="#FFFF"
             />
@@ -169,7 +135,7 @@ export default function CadastroNovaViagem() {
 
           <TouchableOpacity
             style={styles.botaoAdicionar}
-            onPress={handleAdicionar}
+            onPress={controller.handleAdicionar}
           >
             <Text style={styles.textoBotao}>+ Adicionar</Text>
           </TouchableOpacity>
@@ -288,4 +254,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  calendarioHeader: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#E8E8E8",
+    paddingBottom: 10,
+    marginBottom: 10,
+  },
+  temacalendario: {
+    textMonthFontSize: 18,  
+    monthTextColor: "#E8E8E8",
+    todayTextColor: "#F06543",
+    selectedDayBackgroundColor: "#F06543",
+    selectedDayTextColor: "#E8E8E8",
+    arrowColor: "#FFFF",
+    calendarBackground: "transparent",
+    textDayStyle: {
+      color: "#FFFF",
+    },
+    textDisabledColor: "#717171",
+  },
 });
+

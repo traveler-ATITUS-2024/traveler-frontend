@@ -9,10 +9,10 @@ import {
 import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import logo from "../../../../assets/logo.png";
-import fundomenu from "../../../../assets/fundomenu.png";
-import { ModalViagem } from "../../modal/view/modal.jsx";
-import { viagemControllerImpl } from "../di/di.js";
+import logo from "../../../../../assets/logo.png";
+import fundomenu from "../../../../../assets/fundomenu.png";
+import { ModalViagem } from "../../../modal/view/modal.jsx";
+import { viagemControllerImpl } from "../../di/di.js";
 
 export default function Viagem() {
   const controller = viagemControllerImpl();

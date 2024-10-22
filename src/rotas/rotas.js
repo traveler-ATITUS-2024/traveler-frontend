@@ -6,7 +6,7 @@ import { Image, Text } from "react-native";
 
 import Login from "../modules/login/view/login";
 import Cadastro from "../modules/cadastro/view/cadastro";
-import AddNovaViagem from "../modules/viagem/view/viagem";
+import Viagem from "../modules/viagem/components/view/viagem";
 import Profile from "../modules/profile/view/profile";
 import CadastroNovaViagem from "../modules/cadastroviagem/view/cadastroviagem";
 
@@ -39,7 +39,7 @@ function TabRoutes() {
     >
       <Tab.Screen
         name="Home"
-        component={AddNovaViagem} // Componente principal da home
+        component={Viagem} // Componente principal da home
         options={{
           tabBarIcon: ({ focused }) => (
             <Image

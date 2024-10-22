@@ -1,4 +1,4 @@
-const loginRepository = (axios) => async (payload) => {
+const cadastroViagemRepository = (axios) => async (payload) => {
     try {
       console.log("repository", payload);
   
@@ -6,10 +6,10 @@ const loginRepository = (axios) => async (payload) => {
   
       return response.data;
     } catch (error) {
-      console.log("Erro no loginRepository:", error);
+      console.log("Erro no cadastroViagemRepository:", error);
       throw error;
     }
   };
   
-  export default loginRepository;
+  export default cadastroViagemRepository;
   

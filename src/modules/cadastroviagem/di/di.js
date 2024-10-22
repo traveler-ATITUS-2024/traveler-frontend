@@ -1,12 +1,12 @@
-import cadastroviagemController from "../controller/cadastroviagemController";
-import addNovaViagemRepository from "../data/addNovaViagemRepository";
-import addNovaViagemUseCase from "../domain/addNovaViagemUseCase";
+import cadastroViagemController from "../controller/cadastroViagemController";
+import cadastroViagemRepository from "../data/cadastroViagemRepository";
+import CadastroViagemUseCase from "../domain/usecase/cadastroViagemUseCase"; 
 import axiosInstance from "./axios";
 
-const addNovaViagemRepositoryImpl = addNovaViagemRepository(axiosInstance);
-console.log(addNovaViagemRepositoryImpl, "repoimpl");
+const cadastroViagemRepositoryImpl = cadastroViagemRepository(axiosInstance);
 
-const addNovaViagemUseCase = addNovaViagemUseCase(addNovaViagemRepositoryImpl);
-console.log(addNovaViagemUseCase, "useimpl");
+const cadastroViagemUseCaseImpl = new CadastroViagemUseCase(cadastroViagemRepositoryImpl);
 
-export const cadastroviagemControllerImpl = cadastroviagemController(addNovaViagemUseCase);
+const cadastroViagemControllerImpl = cadastroViagemController(cadastroViagemUseCaseImpl);
+
+export { cadastroViagemControllerImpl };
