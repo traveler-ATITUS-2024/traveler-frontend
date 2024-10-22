@@ -1,4 +1,4 @@
-import cadastroViagemController from "../controller/cadastroViagemController";
+import cadastroViagemController from "../controller/cadastroviagemController";
 import cadastroViagemRepository from "../data/cadastroViagemRepository";
 import CadastroViagemUseCase from "../domain/usecase/cadastroViagemUseCase"; 
 import axiosInstance from "./axios";
