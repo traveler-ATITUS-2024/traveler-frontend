@@ -6,10 +6,10 @@ import { Image, Text } from "react-native";
 
 import Login from "../modules/login/view/login";
 import Cadastro from "../modules/cadastro/view/cadastro";
-import AddNovaViagem from "../modules/viagem/view/viagem";
+import Viagem from "../modules/viagem/components/view/viagem";
 import Profile from "../modules/profile/view/profile";
 import CadastroNovaViagem from "../modules/cadastroViagem/view/cadastroViagem";
-import homecomviagem from "../modules/viagem/components/homecomviagem";
+
 
 import homeIcon from "../../assets/casinha.png";
 import profileIcon from "../../assets/pessoa.png";
@@ -39,7 +39,7 @@ function TabRoutes() {
     >
       <Tab.Screen
         name="Home"
-        component={AddNovaViagem} // Componente principal da home
+        component={Viagem} // Componente principal da home
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -113,12 +113,7 @@ function StackRoutes() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="cadastroViagem" 
-        component={CadastroNovaViagem} 
-        options={{ headerShown: false }} 
-      />
-      <Stack.Screen
-        name="homecomviagem" 
+        name="cadastroviagem" 
         component={CadastroNovaViagem} 
         options={{ headerShown: false }} 
       />

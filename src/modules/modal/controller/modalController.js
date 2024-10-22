@@ -12,7 +12,7 @@ const useModalController = (fechar) => {
         await AsyncStorage.setItem("@nomeCidade", cidadeSelecionada);
         console.log(`Cidade ${cidadeSelecionada} salva com sucesso!`);
         setCidade(cidadeSelecionada);
-        navigation.navigate("cadastroViagem");
+        navigation.navigate("cadastroviagem");
       } else {
         console.log("Nenhuma cidade selecionada.");
       }

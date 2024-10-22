@@ -1,4 +1,4 @@
-const addNovaViagemUseCase = (repository) => async (payload) => {
+const cadastroViagemUseCase = (repository) => async (payload) => {
   try {
 
     const response = await repository(payload);
@@ -8,4 +8,4 @@ const addNovaViagemUseCase = (repository) => async (payload) => {
   }
 };
 
-export default addNovaViagemUseCase;
+export default cadastroViagemUseCase;
