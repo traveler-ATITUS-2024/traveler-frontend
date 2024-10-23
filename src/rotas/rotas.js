@@ -3,17 +3,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, Text } from "react-native";
 
-// Importando as telas
+
 import Login from "../modules/login/view/login";
 import Cadastro from "../modules/cadastro/view/cadastro";
-import AddNovaViagem from "../modules/viagem/view/viagem";
+import Viagem from "../modules/viagem/components/view/viagem";
 import Profile from "../modules/profile/view/profile";
+import CadastroNovaViagem from "../modules/cadastroviagem/view/cadastroviagem";
+import HomecomViagem from "../modules/viagem/components/view/homecomviagem";
 
-// Importando ícones
 import homeIcon from "../../assets/casinha.png";
 import profileIcon from "../../assets/pessoa.png";
 
-// Criação dos navegadores
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -23,31 +24,31 @@ function TabRoutes() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "#00050D", // Cor de fundo preta
-          borderTopColor: "transparent", // Remove a borda superior
-          paddingBottom: 47, // Ajuste do padding inferior
-          height: 65, // Altura do tab bar
+          backgroundColor: "#00050D", 
+          borderTopColor: "transparent", 
+          paddingBottom: 47, 
+          height: 65, 
         },
-        tabBarActiveTintColor: "#0E6EFF", // Cor do ícone ativo
-        tabBarInactiveTintColor: "rgba(255,255,255,0.5)", // Cor do ícone inativo
+        tabBarActiveTintColor: "#0E6EFF", 
+        tabBarInactiveTintColor: "rgba(255,255,255,0.5)", 
         headerShown: false,
         tabBarLabelStyle: {
-          fontSize: 12, // Tamanho da fonte do texto
+          fontSize: 12, 
         },
       }}
     >
       <Tab.Screen
         name="Home"
-        component={AddNovaViagem} // Componente principal da home
+        component={Viagem} // Componente principal da home
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
               source={homeIcon}
               style={{
-                width: 32, // Aumenta a largura do ícone
-                height: 32, // Aumenta a altura do ícone
-                tintColor: focused ? "#0E6EFF" : "rgba(255,255,255,0.5)", // Muda a cor conforme o foco
-                marginBottom: -5, // Sobe o ícone Home
+                width: 32, 
+                height: 32, 
+                tintColor: focused ? "#0E6EFF" : "rgba(255,255,255,0.5)", 
+                marginBottom: -5, 
               }}
             />
           ),
@@ -57,8 +58,7 @@ function TabRoutes() {
                 color: focused ? "#0E6EFF" : "rgba(255,255,255,0.5)",
                 fontSize: 12,
               }}
-            >
-            </Text>
+            ></Text>
           ),
         }}
       />
@@ -70,10 +70,10 @@ function TabRoutes() {
             <Image
               source={profileIcon}
               style={{
-                width: 32, // Aumenta a largura do ícone
-                height: 32, // Aumenta a altura do ícone
-                tintColor: focused ? "#0E6EFF" : "rgba(255,255,255,0.5)", // Muda a cor conforme o foco
-                marginBottom: -5, // Sobe o ícone Profile
+                width: 32, 
+                height: 32, 
+                tintColor: focused ? "#0E6EFF" : "rgba(255,255,255,0.5)", 
+                marginBottom: -5, 
               }}
             />
           ),
@@ -83,8 +83,7 @@ function TabRoutes() {
                 color: focused ? "#0E6EFF" : "rgba(255,255,255,0.5)",
                 fontSize: 12,
               }}
-            >
-            </Text>
+            ></Text>
           ),
         }}
       />
@@ -113,7 +112,18 @@ function StackRoutes() {
         component={Cadastro}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="cadastroviagem" 
+        component={CadastroNovaViagem} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen
+        name="HomecomViagem" 
+        component={HomecomViagem} 
+        options={{ headerShown: false }} 
+      />
     </Stack.Navigator>
+    
   );
 }
 
