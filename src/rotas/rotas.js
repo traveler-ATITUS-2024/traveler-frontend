@@ -9,7 +9,7 @@ import Cadastro from "../modules/cadastro/view/cadastro";
 import Viagem from "../modules/viagem/components/view/viagem";
 import Profile from "../modules/profile/view/profile";
 import CadastroNovaViagem from "../modules/cadastroviagem/view/cadastroviagem";
-
+import HomecomViagem from "../modules/viagem/components/view/homecomviagem";
 
 import homeIcon from "../../assets/casinha.png";
 import profileIcon from "../../assets/pessoa.png";
@@ -117,7 +117,13 @@ function StackRoutes() {
         component={CadastroNovaViagem} 
         options={{ headerShown: false }} 
       />
+      <Stack.Screen
+        name="HomecomViagem" 
+        component={HomecomViagem} 
+        options={{ headerShown: false }} 
+      />
     </Stack.Navigator>
+    
   );
 }
 

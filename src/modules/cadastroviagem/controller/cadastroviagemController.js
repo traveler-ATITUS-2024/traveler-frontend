@@ -131,7 +131,7 @@ const cadastroViagemController = (cadastroViagemUseCase) => () => {
       });
 
       if (resultado.success) {
-        navigation.navigate("homecomviagem"); // Navega para a tela "homecomviagem" após o sucesso
+        navigation.navigate("HomecomViagem"); // Navega para a tela "homecomviagem" após o sucesso
       } else {
         alert(resultado.message); // Mostra a mensagem de erro caso algo dê errado
       }
